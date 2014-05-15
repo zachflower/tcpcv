@@ -9,7 +9,7 @@ var net = require('net');
  * Config Variables
  */
 var config = {
-	port: 2345
+	port: 2468
 };
 
 /*
@@ -135,8 +135,13 @@ function resumeSection(section) {
 
 	switch ( section ) {
 		case 'info':
-			output += "                           Zachary M. Flower\n\n";
-			output += "                         zach@zacharyflower.com";
+			output += "------------------------------------------------------------------------------\n";
+			output += "Info\n";
+			output += "------------------------------------------------------------------------------\n";
+			output += "Name: Zachary M. Flower\n";
+			output += "Email: zach@zacharyflower.com\n";
+			output += "Website: http://zacharyflower.com\n";
+			output += "Twitter: @zachflower";
 
 			break;
 		case 'achievements':
