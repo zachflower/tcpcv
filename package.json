@@ -1,0 +1,21 @@
+{
+	"name": "resume-server",
+	"version": "0.0.1",
+	"author": "Zachary Flower <zach@zacharyflower.com>",
+	"description": "A resume-serving telnet server",
+	"contributors": [ 
+		{
+			"name": "Zachary Flower",
+			"email": "zach@zacharyflower.com"
+		} 
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/zachflower/resume-server.git"
+	},
+	"license": "MIT",
+	"engines": {
+		"node": ">=0.10.15"
+	}
+}
+
