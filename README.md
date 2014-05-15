@@ -4,7 +4,14 @@ This is a novel Node.js telnet server that I built to both get my feet wet with 
 
     telnet resume.zacharyflower.com 2468
 
-## Commands
+## Usage
+
+To host your own server, clone this repository and run the server node:
+
+    node server.js
+
+## Server Commands
+
 ### Resume / CV
 
 View entire resume.
