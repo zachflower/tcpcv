@@ -61,8 +61,8 @@ function receiveData(socket, data) {
 			output += "  cv                         :  Display resume information\n";
 			output += "  exit                       :  Exit the resume\n";
 			output += "  help                       :  Display this help text\n";
-			output += "  resume                     :  Display resume information\n";
-			output += "  quit                       :  Exit the resume";
+			output += "  quit                       :  Exit the resume\n";
+			output += "  resume                     :  Display resume information";
 
 			sendData(socket, output);
 			break;
@@ -146,7 +146,8 @@ function resumeSection(section) {
 			output += "Broadcast Engineering Magazine Excellence Award      :  Fall 2010\n";
 			output += "    Design Team Project Engineer\n\n";
 			output += "CI Engineering Design Expo Project Award             :  Spring 2010\n";
-			output += "    Computer Science Capstone Awarded \"Best in Section\"\n\n";
+			output += "    Computer Science Capstone Awarded \"Best in \n";
+			output += "    Section\"\n\n";
 			output += "Competed in Imagine Cup Regional Semi-Finals         :  Spring 2007\n";
 			output += "    Imagine Cup is a Programming Competition\n";
 			output += "    hosted by Microsoft";
