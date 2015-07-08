@@ -4,6 +4,12 @@ This is a novel Node.js telnet server that I built to both get my feet wet with 
 
     telnet resume.zacharyflower.com 2468
 
+## TODO
+
+* Utilize https://github.com/patorjk/figlet.js to dynamicaly generate ASCII
+  name MOTD
+* Dynamically pull resume information from LinkedIn
+
 ## Usage
 
 To host your own server, clone this repository and run the server node:
