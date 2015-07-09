@@ -22,6 +22,8 @@ View entire resume.
 
 View help screen.
 
+    $ help
+
 ### Exit / Quit
 
 Quit out of the resume.
