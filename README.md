@@ -18,38 +18,6 @@ View entire resume.
 
     $ resume
 
-#### Resume Commands
-
-##### Achievements
-
-View awards and achievements section.
-
-    $ resume achievements
-
-##### Education
-
-View education section.
-
-    $ resume education
-    
-##### Employment
-    
-View employment history section.
-    
-    $ resume employment
-    
-##### Info
-
-View personal information section.
-
-    $ resume info
-    
-##### Projects
-
-View personal projects section.
-
-    $ resume projects
-
 ### Help
 
 View help screen.
