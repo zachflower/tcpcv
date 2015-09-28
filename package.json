@@ -1,6 +1,6 @@
 {
 	"name": "resume-server",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"author": "Zachary Flower <zach@zacharyflower.com>",
 	"description": "A resume-serving telnet server",
 	"contributors": [ 

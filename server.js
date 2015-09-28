@@ -8,6 +8,14 @@ var figlet = require('figlet');
 var sprintf = require("sprintf-js").sprintf;
 var vsprintf = require("sprintf-js").vsprintf;
 var wrap = require('word-wrap');
+
+try {
+  require.resolve('./config');
+} catch(e) {
+  console.error("config.js file not found, use config-sample.js as a reference");
+  process.exit(e.code);
+}
+
 var config = require('./config');
 
 /*
@@ -66,7 +74,7 @@ function receiveData(socket, data) {
 			break;
 		case 'help cv':
 		case 'help resume':
-			output += "These shell commands are defined internally.  Type 'help resume' to see this list.\n";
+			output += "These shell commands are defined via a config file.  Type 'help resume' to see this list.\n";
 			output += "\n";
 			output += "Commands:\n";
 			output += "  resume                            :  Full resume\n";
@@ -163,7 +171,7 @@ function closeSocket(socket) {
 function newSocket(socket) {
 	sockets.push(socket);
 	socket.write("\n");
-	socket.write("Last updated: Wed May 14 18:59:40 MST by Zachary Flower\n");
+	socket.write("Last updated: Mon Sep 28 15:20:20 MST by Zachary Flower\n");
 	socket.write("\n");
 	socket.write(figlet.textSync(config.motd));
 	socket.write("\n");
