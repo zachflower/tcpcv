@@ -31,9 +31,12 @@ displayed when someone connects to the resume server.
 
 ## Usage
 
-To run your server, clone this repository and run the following command from within the directory:
+To run your server, clone this repository and run the following commands from within the directory:
 
-    node server.js
+```
+npm install
+node server.js
+```
 
 To keep your server running in the background, check out https://github.com/foreverjs/forever,
 an awesome command-line tool for running node packages continuously.
