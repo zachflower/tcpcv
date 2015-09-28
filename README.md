@@ -46,45 +46,14 @@ View entire resume.
 
     $ resume
 
-#### Resume Commands
-
-Resume commands are dynamically generated via the `config.js` file. Here are
-some example commands implemented in the demo config: 
-
-##### Achievements
-
-View awards and achievements section.
-
-    $ resume achievements
-
-##### Education
-
-View education section.
-
-    $ resume education
-    
-##### Employment
-    
-View employment history section.
-    
-    $ resume employment
-    
-##### Info
-
-View personal information section.
-
-    $ resume info
-    
-##### Projects
-
-View personal projects section.
-
-    $ resume projects
-
 ### Help
 
 View help screen.
 
+    $ help
+
 ### Exit / Quit
 
 Quit out of the resume.
+
+    $ exit
