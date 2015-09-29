@@ -1,9 +1,12 @@
 # Resume Telnet Server
 
 This is a novel Node.js telnet server that I built to both get my feet wet with Node.js,
-and to serve my resume. To connect to the server, open up a terminal and enter the following:
+and to serve my resume. To connect to the demo server, open up a terminal and enter the
+following:
 
-    telnet resume.zacharyflower.com 2468
+```
+telnet resume.zacharyflower.com 2468
+```
 
 ## Configuration
 
@@ -47,16 +50,32 @@ an awesome command-line tool for running node packages continuously.
 
 View entire resume.
 
-    $ resume
+```
+resume
+```
 
 ### Help
 
 View help screen.
 
-    $ help
+```
+help
+```
 
 ### Exit / Quit
 
 Quit out of the resume.
 
-    $ exit
+```
+exit
+```
+
+## What's Next?
+
+Just a few ideas on how I can improve the server:
+
+- Pull down job history, awards, etc. from a LinkedIn profile instead of
+  duplicating the data within a config file.
+- Roll this into an actual node package for `npm install` goodness.
+- Configure forever-monitor for built-in daemon support.
+
