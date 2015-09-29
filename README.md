@@ -78,4 +78,6 @@ Just a few ideas on how I can improve the server:
   duplicating the data within a config file.
 - Roll this into an actual node package for `npm install` goodness.
 - Configure forever-monitor for built-in daemon support.
+- Add analytics to track number of views.
+- Add ability to set resume to private w/ password protection.
 
