@@ -89,3 +89,5 @@ Just a few ideas on how I can improve the server:
 - Added Ctrl+D support (aliased to 'exit')
 - Enter/return is no longer an unknown command
 - Newline added to "command not found" response
+- Required Node version increased
+

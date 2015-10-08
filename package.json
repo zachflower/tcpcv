@@ -15,7 +15,7 @@
 	},
 	"license": "MIT",
 	"engines": {
-		"node": ">=0.10.15"
+		"node": ">=0.12.7"
 	},
 	"dependencies": {
 		"figlet": "1.1.1",
