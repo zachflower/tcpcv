@@ -28,7 +28,16 @@ var lastInput = '';
  * Cleans the input of carriage return, newline
  */
 function cleanInput(data) {
-	return data.toString().replace(/(\r\n|\n|\r)/gm,"").toLowerCase();
+  var ctrld = new Buffer([04]);
+
+  /*
+   * Convert Ctrl+D to 'exit'
+   */
+  if ( data.equals(ctrld) ) {
+      return 'exit';
+  } else {
+      return data.toString().replace(/(\r\n|\n|\r)/gm,"").toLowerCase();
+  }
 }
 
 /*
@@ -54,6 +63,9 @@ function receiveData(socket, data) {
 	var output = "";
 
 	switch ( cleanData ) {
+    case '':
+			sendData(socket, output);
+      break;
 		case 'quit':
 		case 'exit':
 			socket.end('Goodbye!\n');
@@ -107,7 +119,7 @@ function receiveData(socket, data) {
 				}
 			}
 
-			sendData(socket, "-resume: " + cleanData + ": command not found");
+      sendData(socket, "-resume: " + cleanData + ": command not found\n");
 			break;
 	}
 }
