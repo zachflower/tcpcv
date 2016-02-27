@@ -1,0 +1,14 @@
+{
+  "name": "Resume Server",
+  "description": "This is a novel Node.js telnet server that I built to both get my feet wet with Node.js, and to serve my resume.",
+  "keywords": [
+    "resume",
+    "telnet",
+    "node"
+  ],
+  "repository": "https://github.com/zachflower/resume-server",
+  "scripts": {
+    "postdeploy": "npm install"
+  },
+  "image": "heroku/nodejs"
+}
