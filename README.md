@@ -1,3 +1,5 @@
+**NOTE: This repository has been moved to https://git.flower.codes/zach/resume**
+
 # Resume Telnet Server
 
 This is a novel Node.js telnet server that I built to both get my feet wet with Node.js,
