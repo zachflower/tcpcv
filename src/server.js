@@ -176,7 +176,7 @@ function closeSocket(socket) {
 		sockets.splice(i, 1);
 	}
 }
- 
+
 /*
  * Callback method executed when a new TCP socket is opened.
  */
@@ -198,6 +198,6 @@ function newSocket(socket) {
 		closeSocket(socket);
 	})
 }
- 
+
 var server = net.createServer(newSocket);
 server.listen(config.port);

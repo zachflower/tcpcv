@@ -1,5 +1,3 @@
-**NOTE: This repository has been moved to https://git.flower.codes/zach/resume**
-
 # Resume Telnet Server
 
 This is a novel Node.js telnet server that I built to both get my feet wet with Node.js,
@@ -71,14 +69,3 @@ Quit out of the resume.
 ```
 exit
 ```
-
-## What's Next?
-
-Just a few ideas on how I can improve the server:
-
-- Pull down job history, awards, etc. from a LinkedIn profile instead of
-  duplicating the data within a config file.
-- Roll this into an actual node package for `npm install` goodness.
-- Configure forever-monitor for built-in daemon support.
-- Add analytics to track number of views.
-- Add ability to set resume to private w/ password protection.
