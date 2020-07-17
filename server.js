@@ -3,11 +3,15 @@
  *  http://www.davidmclifton.com/2011/07/22/simple-telnet-server-in-node-js/
  */
 
-var net = require('net');
-var figlet = require('figlet');
-var sprintf = require("sprintf-js").sprintf;
-var vsprintf = require("sprintf-js").vsprintf;
-var wrap = require('word-wrap');
+const net = require('net');
+const fs = require('fs');
+const figlet = require('figlet');
+const sprintf = require("sprintf-js").sprintf;
+const vsprintf = require("sprintf-js").vsprintf;
+const wrap = require('word-wrap');
+
+
+const PORT = process.env.PORT || 2468;
 
 try {
   require.resolve('./config');
@@ -16,43 +20,44 @@ try {
   process.exit(e.code);
 }
 
-var config = require('./config');
+const config = require('./config');
+const stats = fs.statSync("resume.json");
 
 /*
  * Global Variables
  */
-var sockets = [];
-var lastInput = '';
+let sockets = [];
+let lastInput = '';
 
 /*
  * Cleans the input of carriage return, newline
  */
-function cleanInput(data) {
-	var ctrld = Buffer.from([04]);
+const cleanInput = (data) => {
+	const ctrld = Buffer.from([04]);
 
   /*
    * Convert Ctrl+D to 'exit'
    */
   if ( data.equals(ctrld) ) {
       return 'exit';
-  } else {
-      return data.toString().replace(/(\r\n|\n|\r)/gm,"").toLowerCase();
-  }
-}
+	}
+
+	return data.toString().replace(/(\r\n|\n|\r)/gm,"").toLowerCase();
+};
 
 /*
  * Send Data to Socket
  */
-function sendData(socket, data) {
+const sendData = (socket, data) => {
 	socket.write(data);
 	socket.write("$ ");
-}
+};
 
 /*
  * Method executed when data is received from a socket
  */
-function receiveData(socket, data) {
-	var cleanData = cleanInput(data);
+const receiveData = (socket, data) => {
+	let cleanData = cleanInput(data);
 
 	if ( cleanData != '!!' ) {
 		lastInput = cleanData;
@@ -60,7 +65,7 @@ function receiveData(socket, data) {
 		cleanData = lastInput;
 	}
 
-	var output = "";
+	let output = "";
 
 	switch ( cleanData ) {
     case '':
@@ -109,7 +114,7 @@ function receiveData(socket, data) {
 			break;
 		default:
 			if ( cleanData.match(/^(resume|cv) /) ) {
-				var section = cleanData.replace(/^(resume|cv) /, '');
+				const section = cleanData.replace(/^(resume|cv) /, '');
 
 				if ( config.sections.hasOwnProperty(section) ) {
 					output = resumeSection(section);
@@ -122,10 +127,10 @@ function receiveData(socket, data) {
       sendData(socket, "-resume: " + cleanData + ": command not found\n");
 			break;
 	}
-}
+};
 
-function resumeSection(section) {
-	var output = "";
+const resumeSection = (section) => {
+	let output = "";
 
 	if ( config.sections.hasOwnProperty(section) ) {
 		output += "--------------------------------------------------------------------------------\n";
@@ -134,7 +139,7 @@ function resumeSection(section) {
 
 		stringlast = false;
 
-		config.sections[section].data.forEach(function(block) {
+		config.sections[section].data.forEach((block) => {
 			if ( typeof block === 'string' || block instanceof String ) {
 				output += sprintf("%s\n", block);
 
@@ -164,40 +169,40 @@ function resumeSection(section) {
 	}
 
 	return output;
-}
+};
 
 /*
  * Method executed when a socket ends
  */
-function closeSocket(socket) {
-	var i = sockets.indexOf(socket);
+const closeSocket = (socket) => {
+	const i = sockets.indexOf(socket);
 
 	if (i != -1) {
 		sockets.splice(i, 1);
 	}
-}
+};
 
 /*
  * Callback method executed when a new TCP socket is opened.
  */
-function newSocket(socket) {
+const newSocket = (socket) => {
 	sockets.push(socket);
 	socket.write("\n");
-	socket.write("Last updated: Mon Sep 28 15:20:20 MST by Zachary Flower\n");
+	socket.write("Last updated: " + stats.mtime.toUTCString() + " by Zachary Flower\n");
 	socket.write("\n");
 	socket.write(figlet.textSync(config.motd));
 	socket.write("\n");
 
 	sendData(socket, "Type 'help' for more information.\n");
 
-	socket.on('data', function(data) {
+	socket.on('data', (data) => {
 		receiveData(socket, data);
-	})
+	});
 
-	socket.on('end', function() {
+	socket.on('end', () => {
 		closeSocket(socket);
-	})
-}
+	});
+};
 
-var server = net.createServer(newSocket);
-server.listen(config.port);
+const server = net.createServer(newSocket);
+server.listen(PORT);
