@@ -28,7 +28,7 @@ var lastInput = '';
  * Cleans the input of carriage return, newline
  */
 function cleanInput(data) {
-  var ctrld = new Buffer([04]);
+	var ctrld = Buffer.from([04]);
 
   /*
    * Convert Ctrl+D to 'exit'
