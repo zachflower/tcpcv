@@ -5,7 +5,7 @@ and to serve my resume. To connect to the demo server, open up a terminal and en
 following:
 
 ```
-telnet resume.zacharyflower.com 2468
+telnet flower.codes
 ```
 
 ## Configuration
