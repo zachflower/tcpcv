@@ -1,0 +1,46 @@
+{
+  "sections": {
+    "info": {
+      "title": "Info",
+      "description": "Personal information",
+      "data": [
+        "Name: Jean-Luc Picard",
+        "Email: jluc@starfleet.gov",
+        "Tea: Earl Grey, Hot"
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "description": "Education history",
+      "data": [
+        {
+          "header": [
+            "Starfleet Academy",
+            "San Francisco, United Earth"
+          ],
+          "subheader": [
+            "Officer",
+            "2323 - 2327"
+          ]
+        }
+      ]
+    },
+    "employment": {
+      "title": "Employment",
+      "description": "Employment history",
+      "data": [
+        {
+          "header": [
+            "Starfleet",
+            "San Francisco, United Earth"
+          ],
+          "subheader": [
+            "Captain",
+            "2333 - 2379"
+          ],
+          "body": "Ascended from bridge officer to captain on the USS Stargazer. Commanded the Stargazer for two decades. Creator of the \"Picard Maneuver.\" Commanded the USS Enterprise-D and Enterprise-E, exploring the great, unexplored mass."
+        }
+      ]
+    }
+  }
+}
