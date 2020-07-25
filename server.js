@@ -3,6 +3,7 @@
 
 const net = require('net');
 const fs = require('fs');
+const meow = require('meow');
 const figlet = require('figlet');
 const sprintf = require("sprintf-js").sprintf;
 const vsprintf = require("sprintf-js").vsprintf;
@@ -12,14 +13,6 @@ const MOTD = process.env.MOTD || "Zachary Flower";
 const PORT = process.env.PORT || 2468;
 const RESUME = process.env.RESUME || "resume.json";
 
-try {
-  require.resolve('./config');
-} catch(e) {
-  console.error("config.js file not found, use config-sample.js as a reference");
-  process.exit(e.code);
-}
-
-const config = require('./config');
 const stats = fs.statSync(RESUME);
 const resume = JSON.parse(fs.readFileSync(RESUME, 'utf8'));
 
@@ -96,8 +89,8 @@ const receiveData = (socket, data) => {
       output += "Commands:\n";
       output += "  resume                            :  Full resume\n";
 
-      for ( section in config.sections ) {
-        output += vsprintf("  resume %-25s  :  %-25s\n", [section, config.sections[section].description]);
+      for ( section in resume.sections ) {
+        output += vsprintf("  resume %-25s  :  %-25s\n", [section, resume.sections[section].description]);
       }
 
       output += "\n";
@@ -106,7 +99,7 @@ const receiveData = (socket, data) => {
       break;
     case 'cv':
     case 'resume':
-      for ( section in config.sections ) {
+      for ( section in resume.sections ) {
         output += resumeSection(section);
       }
 
@@ -116,7 +109,7 @@ const receiveData = (socket, data) => {
       if ( cleanData.match(/^(resume|cv) /) ) {
         const section = cleanData.replace(/^(resume|cv) /, '');
 
-        if ( config.sections.hasOwnProperty(section) ) {
+        if ( resume.sections.hasOwnProperty(section) ) {
           output = resumeSection(section);
 
           sendData(socket, output);
@@ -132,14 +125,14 @@ const receiveData = (socket, data) => {
 const resumeSection = (section) => {
   let output = "";
 
-  if ( config.sections.hasOwnProperty(section) ) {
+  if ( resume.sections.hasOwnProperty(section) ) {
     output += "--------------------------------------------------------------------------------\n";
-    output += sprintf("%s\n", config.sections[section].title);
+    output += sprintf("%s\n", resume.sections[section].title);
     output += "--------------------------------------------------------------------------------\n";
 
     stringlast = false;
 
-    config.sections[section].data.forEach((block) => {
+    resume.sections[section].data.forEach((block) => {
       if ( typeof block === 'string' || block instanceof String ) {
         output += sprintf("%s\n", block);
 

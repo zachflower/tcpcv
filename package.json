@@ -1,6 +1,6 @@
 {
   "name": "tcpcv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Zachary Flower <zach@flower.codes>",
   "description": "a retro-style, text-based server for hosting your résumé",
   "contributors": [
@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "figlet": "1.1.1",
+    "meow": "^7.0.1",
     "sprintf-js": "1.0.2",
     "word-wrap": "1.0.3"
   }
 }
-
