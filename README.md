@@ -1,71 +1,22 @@
-# Resume Telnet Server
+# TCPCV
 
-This is a novel Node.js telnet server that I built to both get my feet wet with Node.js,
-and to serve my resume. To connect to the demo server, open up a terminal and enter the
-following:
+TCPCV is a retro-style, text-based server for hosting your résumé.
 
-```
-telnet flower.codes
-```
+## Requirements
 
-## Configuration
+TCPCV has been tested with the following dependencies in mind:
 
-The resume sections are dynamically generated via a required `config.js` file.
-An example configuration file (`config-sample.js`) has been provided.
+- Node.js v14.4.0+
+- npm v6.14.4+
 
-### Port
+## Contributing
 
-Update the `port` value to change the port the resume server listens on. Ports
-below 1024 will require root access.
+Please read through the [contributing guidelines](https://github.com/zachflower/tcpcv/blob/master/.github/CONTRIBUTING.md). Included are directions for opening issues, coding standards, and notes on development.
 
-### MotD
+## Support
 
-The `motd` (or Message of the Day) value is used to generate the ASCII-art name
-displayed when someone connects to the resume server.
+The [issue tracker](https://github.com/zachflower/tcpcv/issues) is the preferred channel for bug reports, feature requests and submitting pull requests.
 
-```
-  _____          _                      _____ _
- |__  /__ _  ___| |__   __ _ _ __ _   _|  ___| | _____      _____ _ __
-   / // _` |/ __| '_ \ / _` | '__| | | | |_  | |/ _ \ \ /\ / / _ \ '__|
-  / /| (_| | (__| | | | (_| | |  | |_| |  _| | | (_) \ V  V /  __/ |
- /____\__,_|\___|_| |_|\__,_|_|   \__, |_|   |_|\___/ \_/\_/ \___|_|
-                                  |___/
-```
+## License
 
-## Usage
-
-To run your server, clone this repository and run the following commands from within the directory:
-
-```
-npm install
-node server.js
-```
-
-To keep your server running in the background, check out https://github.com/foreverjs/forever,
-an awesome command-line tool for running node packages continuously.
-
-## Server Commands
-
-### Resume / CV
-
-View entire resume.
-
-```
-resume
-```
-
-### Help
-
-View help screen.
-
-```
-help
-```
-
-### Exit / Quit
-
-Quit out of the resume.
-
-```
-exit
-```
+TCPCV is licensed under the MIT License.

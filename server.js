@@ -1,7 +1,5 @@
-/*
- * Sources:
- *  http://www.davidmclifton.com/2011/07/22/simple-telnet-server-in-node-js/
- */
+#!/usr/bin/env node
+'use strict';
 
 const net = require('net');
 const fs = require('fs');
@@ -35,7 +33,7 @@ let lastInput = '';
  * Cleans the input of carriage return, newline
  */
 const cleanInput = (data) => {
-  const ctrld = Buffer.from([04]);
+  const ctrld = Buffer.from(["04"]);
 
   /*
    * Convert Ctrl+D to 'exit'
