@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "figlet": "1.1.1",
+    "meow": "^7.0.1",
     "sprintf-js": "1.0.2",
     "word-wrap": "1.0.3"
   }
 }
-
