@@ -1,4 +1,5 @@
 # TCPCV
+![Node.js CI](https://github.com/zachflower/tcpcv/workflows/Node.js%20CI/badge.svg)
 
 TCPCV is a retro-style, text-based server for hosting your résumé.
 
