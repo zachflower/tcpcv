@@ -79,10 +79,10 @@ const sendData = (socket, data) => {
 const receiveData = (socket, data) => {
   let cleanData = cleanInput(data);
 
-  if (cleanData != '!!') {
-    lastInput = cleanData;
-  } else {
+  if (cleanData === '!!') {
     cleanData = lastInput;
+  } else {
+    lastInput = cleanData;
   }
 
   let output = '';
@@ -117,7 +117,9 @@ const receiveData = (socket, data) => {
       output += '  resume                            :  Full resume\n';
 
       for (const section in resume.sections) {
-        output += vsprintf('  resume %-25s  :  %-25s\n', [section, resume.sections[section].description]);
+        if (Object.prototype.hasOwnProperty.call(resume.sections, section)) {
+          output += vsprintf('  resume %-25s  :  %-25s\n', [section, resume.sections[section].description]);
+        }
       }
 
       output += '\n';
@@ -127,7 +129,9 @@ const receiveData = (socket, data) => {
     case 'cv':
     case 'resume':
       for (const section in resume.sections) {
-        output += resumeSection(section);
+        if (Object.prototype.hasOwnProperty.call(resume.sections, section)) {
+          output += resumeSection(section);
+        }
       }
 
       sendData(socket, output);
@@ -136,7 +140,7 @@ const receiveData = (socket, data) => {
       if (cleanData.match(/^(resume|cv) /)) {
         const section = cleanData.replace(/^(resume|cv) /, '');
 
-        if (resume.sections.hasOwnProperty(section)) {
+        if (Object.prototype.hasOwnProperty.call(resume.sections, section)) {
           output = resumeSection(section);
 
           sendData(socket, output);
@@ -152,7 +156,7 @@ const receiveData = (socket, data) => {
 const resumeSection = section => {
   let output = '';
 
-  if (resume.sections.hasOwnProperty(section)) {
+  if (Object.prototype.hasOwnProperty.call(resume.sections, section)) {
     output += '--------------------------------------------------------------------------------\n';
     output += sprintf('%s\n', resume.sections[section].title);
     output += '--------------------------------------------------------------------------------\n';
@@ -165,15 +169,15 @@ const resumeSection = section => {
 
         stringlast = true;
       } else {
-        if (block.hasOwnProperty('header')) {
+        if (Object.prototype.hasOwnProperty.call(block, 'header')) {
           output += vsprintf('%-51s  :  %-24s\n', block.header);
         }
 
-        if (block.hasOwnProperty('subheader')) {
+        if (Object.prototype.hasOwnProperty.call(block, 'subheader')) {
           output += vsprintf('%-51s  :  %-24s\n', block.subheader);
         }
 
-        if (block.hasOwnProperty('body')) {
+        if (Object.prototype.hasOwnProperty.call(block, 'body')) {
           output += sprintf('%s\n', wrap(block.body, {indent: '    ', width: 76}));
         }
 
@@ -197,7 +201,7 @@ const resumeSection = section => {
 const closeSocket = socket => {
   const i = sockets.indexOf(socket);
 
-  if (i != -1) {
+  if (i !== -1) {
     sockets.splice(i, 1);
   }
 };
