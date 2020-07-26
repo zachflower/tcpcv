@@ -4,14 +4,13 @@
 const net = require('net');
 const fs = require('fs');
 const meow = require('meow');
+const signale = require('signale');
 const figlet = require('figlet');
 const sprintf = require('sprintf-js').sprintf;
 const vsprintf = require('sprintf-js').vsprintf;
 const wrap = require('word-wrap');
 const updateNotifier = require('update-notifier');
 const pkg = require('./package.json');
-
-updateNotifier({pkg}).notify();
 
 const cli = meow(`
   Usage:
@@ -39,6 +38,25 @@ const cli = meow(`
     }
   }
 });
+
+const notifier = updateNotifier({pkg});
+
+signale.config({
+  displayBadge: true,
+  displayTimestamp: true,
+  displayDate: true
+});
+
+if (notifier.update) {
+  signale.pending(`Update available ${pkg.version} => ${notifier.update.latest}`);
+}
+
+if (!fs.existsSync(cli.flags.resume)) {
+  signale.fatal(new Error(`No such file or directory, '${cli.flags.resume}'`));
+  process.exit(1);
+}
+
+signale.info('Loading resume from', cli.flags.resume);
 
 const stats = fs.statSync(cli.flags.resume);
 const resume = JSON.parse(fs.readFileSync(cli.flags.resume, 'utf8'));
@@ -210,6 +228,8 @@ const closeSocket = socket => {
  * Callback method executed when a new TCP socket is opened.
  */
 const newSocket = socket => {
+  signale.info('New connection from', socket.remoteAddress);
+
   sockets.push(socket);
   socket.write('\n');
   socket.write('Last updated: ' + stats.mtime.toUTCString() + '\n');
@@ -230,3 +250,5 @@ const newSocket = socket => {
 
 const server = net.createServer(newSocket);
 server.listen(cli.flags.port);
+
+signale.success('TCPCV is ready to rock on port', server.address().port);
