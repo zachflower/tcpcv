@@ -1,8 +1,10 @@
 # TCPCV
 
-![Node.js CI](https://github.com/zachflower/tcpcv/workflows/Node.js%20CI/badge.svg)
+![build](https://github.com/zachflower/tcpcv/workflows/Node.js%20CI/badge.svg) [![npm version](https://badge.fury.io/js/tcpcv.svg)](https://badge.fury.io/js/tcpcv)
 
-TCPCV is a retro-style, text-based server for hosting your resume.
+TCPCV is a retro-style, text-based server for hosting your resume. For absolutely no practical reason, you can make your resume accessible in the most obsolete of ways: via [Telnet](https://en.wikipedia.org/wiki/Telnet).
+
+_Note: It is entirely possible that Telnet is not installed by default on some modern operating systems—for good reason, probably. However, it stands to reason that if someone is actually going to try and read a resume via Telnet, they are comfortable enough with technology to figure out how to install it too._
 
 ![TCPCV demo](.github/demo.gif)
 
