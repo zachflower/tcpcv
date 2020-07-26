@@ -1,6 +1,6 @@
 # TCPCV
 
-![build](https://github.com/zachflower/tcpcv/workflows/Node.js%20CI/badge.svg) [![npm version](https://badge.fury.io/js/tcpcv.svg)](https://badge.fury.io/js/tcpcv)
+![build](https://github.com/zachflower/tcpcv/workflows/Node.js%20CI/badge.svg) ![npm](https://img.shields.io/npm/v/tcpcv) ![npm](https://img.shields.io/npm/dm/tcpcv)
 
 TCPCV is a retro-style, text-based server for hosting your resume. For absolutely no practical reason, you can make your resume accessible in the most obsolete of ways: via [Telnet](https://en.wikipedia.org/wiki/Telnet).
 
