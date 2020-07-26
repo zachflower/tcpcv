@@ -18,6 +18,7 @@ const cli = meow(`
     --motd[=MOTD]     The hero text to display on connection (default: TCPCV)
     --port[=PORT]     The port to listen on (default: 2468)
     --resume[=RESUME] Path to the resume file (default: resume.json)
+    --version         Display this application version
 `, {
   flags: {
     motd: {
