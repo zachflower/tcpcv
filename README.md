@@ -2,6 +2,8 @@
 
 TCPCV is a retro-style, text-based server for hosting your résumé.
 
+![TCPCV demo](.github/demo.gif)
+
 ## Requirements
 
 TCPCV has been tested with the following dependencies:
