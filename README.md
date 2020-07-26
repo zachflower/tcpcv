@@ -8,6 +8,38 @@ _Note: It is entirely possible that Telnet is not installed by default on some m
 
 ![TCPCV demo](.github/demo.gif)
 
+## tl;dr
+
+If you want to skip all of the pesky requirements, installation steps, and configuration details, then using TCPCV can be broken down into two major steps:
+
+### Start TCPCV
+
+On the server that you wish to host TCPCV on:
+
+```
+$ tcpcv --resume=<path-to-resume.json> --port=<port> --motd=<motd>
+```
+
+#### Example
+
+```
+$ tcpcv --resume=resume.json --port=2468 --motd="John Doe"
+```
+
+### Connect to TCPCV
+
+On a client you wish to connect to TCPCV from:
+
+```
+$ telnet <address-of-tcpcv-server> <port>
+```
+
+#### Example
+
+```
+$ telnet 192.168.1.1 2468
+```
+
 ## Requirements
 
 TCPCV has been tested with the following dependencies:
