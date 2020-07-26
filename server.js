@@ -8,6 +8,10 @@ const figlet = require('figlet');
 const sprintf = require("sprintf-js").sprintf;
 const vsprintf = require("sprintf-js").vsprintf;
 const wrap = require('word-wrap');
+const updateNotifier = require('update-notifier');
+const pkg = require('./package.json');
+
+updateNotifier({pkg}).notify();
 
 const cli = meow(`
   Usage:
