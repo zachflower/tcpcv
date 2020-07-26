@@ -8,8 +8,7 @@ TCPCV is a retro-style, text-based server for hosting your résumé.
 
 TCPCV has been tested with the following dependencies:
 
-- Node.js v14.4.0+
-- npm v6.14.4+
+- Node.js v10+
 
 ## Installation
 
