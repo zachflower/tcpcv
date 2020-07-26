@@ -1,7 +1,8 @@
 # TCPCV
+
 ![Node.js CI](https://github.com/zachflower/tcpcv/workflows/Node.js%20CI/badge.svg)
 
-TCPCV is a retro-style, text-based server for hosting your résumé.
+TCPCV is a retro-style, text-based server for hosting your resume.
 
 ![TCPCV demo](.github/demo.gif)
 
@@ -22,7 +23,7 @@ npm install --global tcpcv
 ```
 $ tcpv --help
 
-  TCPCV is a retro-style, text-based server for hosting your résumé
+  TCPCV is a retro-style, text-based server for hosting your resume
 
   Usage:
     tcpcv [options]
@@ -67,7 +68,142 @@ TCPCV is hosted on port `2468` by default, however this can be overridden with t
 
 ### `--resume[=RESUME]`
 
-Without a resume, TCPCV would be effectively useless, so the `--resume` option is by far the most important. By default, this will look for a file called `resume.json` in the current directory, however you can override the path using this option.
+Without a resume, TCPCV would be effectively useless, so the `--resume` option is by far the most important. By default, this will look for a file called `resume.json` in the current directory, however you can override the path using this option. [See below](#configuration) more information about the `resume.json` file format.
+
+## Configuration
+
+By default, TCPCV expects a `resume.json` file in the executing directory to fill out the resume details. At its core, this file allows you to define an arbitrary number of sections—with two different section formats—giving you the flexibility to display the information that _you_ care about. As an example, let's take a look at the `resume.example.json` file in this repository:
+
+```json
+{
+  "sections": {
+    "info": {
+      "title": "Info",
+      "description": "Personal information",
+      "data": [
+        "Name: Jean-Luc Picard",
+        "Email: jluc@starfleet.gov",
+        "Tea: Earl Grey, Hot"
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "description": "Education history",
+      "data": [
+        {
+          "header": [
+            "Starfleet Academy",
+            "San Francisco, United Earth"
+          ],
+          "subheader": [
+            "Officer",
+            "2323 - 2327"
+          ]
+        }
+      ]
+    },
+    "employment": {
+      "title": "Employment",
+      "description": "Employment history",
+      "data": [
+        {
+          "header": [
+            "Starfleet",
+            "San Francisco, United Earth"
+          ],
+          "subheader": [
+            "Captain",
+            "2333 - 2379"
+          ],
+          "body": "Ascended from bridge officer to captain on the USS Stargazer. Commanded the Stargazer for two decades. Creator of the \"Picard Maneuver.\" Commanded the USS Enterprise-D and Enterprise-E, exploring the great, unexplored mass."
+        }
+      ]
+    }
+  }
+}
+```
+
+When parsed, this file is rendered for the end-user like so:
+
+```
+$ resume
+
+--------------------------------------------------------------------------------
+Info
+--------------------------------------------------------------------------------
+Name: Jean-Luc Picard
+Email: jluc@starfleet.gov
+Tea: Earl Grey, Hot
+
+--------------------------------------------------------------------------------
+Education
+--------------------------------------------------------------------------------
+Starfleet Academy                                    :  San Francisco, United Earth
+Officer                                              :  2323 - 2327
+
+--------------------------------------------------------------------------------
+Employment
+--------------------------------------------------------------------------------
+Starfleet                                            :  San Francisco, United Earth
+Captain                                              :  2333 - 2379
+    Ascended from bridge officer to captain on the USS Stargazer. Commanded the
+    Stargazer for two decades. Creator of the "Picard Maneuver." Commanded the
+    USS Enterprise-D and Enterprise-E, exploring the great, unexplored mass.
+```
+
+### String Blocks
+
+As you can see, when a raw `string` is defined in a section's `data` block, it gets rendered exactly as written:
+
+```json
+"data": [
+  "Name: Jean-Luc Picard",
+  "Email: jluc@starfleet.gov",
+  "Tea: Earl Grey, Hot"
+]
+```
+
+Becomes:
+
+```
+Name: Jean-Luc Picard
+Email: jluc@starfleet.gov
+Tea: Earl Grey, Hot
+```
+
+### Object Blocks
+
+Alternatively, a more structured format can be used to make the output a little cleaner:
+
+```json
+"data": [
+  {
+    "header": [
+      "Starfleet",
+      "San Francisco, United Earth"
+    ],
+    "subheader": [
+      "Captain",
+      "2333 - 2379"
+    ],
+    "body": "Ascended from bridge officer to captain on the USS Stargazer. Commanded the Stargazer for two decades. Creator of the \"Picard Maneuver.\" Commanded the USS Enterprise-D and Enterprise-E, exploring the great, unexplored mass."
+  }
+]
+```
+
+Becomes:
+
+```
+Starfleet                                            :  San Francisco, United Earth
+Captain                                              :  2333 - 2379
+    Ascended from bridge officer to captain on the USS Stargazer. Commanded the
+    Stargazer for two decades. Creator of the "Picard Maneuver." Commanded the
+    USS Enterprise-D and Enterprise-E, exploring the great, unexplored mass.
+```
+
+The `header` and `subheader` values allow you to cleanly separate names, titles, locations, and dates in a clearly readable format, while the `body` value can be filled out to provide more detail about the entry—and, for the record, `body` is word-wrapped at `76` characters, so you don't have to worry about formatting.
+
+**Note:** It's important to note that the `header`, `subheader`, and `body` values are all optional, so you can have a little control, over what gets displayed and where.
 
 ## Contributing
 
