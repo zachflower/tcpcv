@@ -5,8 +5,8 @@ const net = require('net');
 const fs = require('fs');
 const meow = require('meow');
 const figlet = require('figlet');
-const sprintf = require("sprintf-js").sprintf;
-const vsprintf = require("sprintf-js").vsprintf;
+const sprintf = require('sprintf-js').sprintf;
+const vsprintf = require('sprintf-js').vsprintf;
 const wrap = require('word-wrap');
 const updateNotifier = require('update-notifier');
 const pkg = require('./package.json');
@@ -36,7 +36,7 @@ const cli = meow(`
     resume: {
       type: 'string',
       default: 'resume.json'
-    },
+    }
   }
 });
 
@@ -46,23 +46,23 @@ const resume = JSON.parse(fs.readFileSync(cli.flags.resume, 'utf8'));
 /*
  * Global Variables
  */
-let sockets = [];
+const sockets = [];
 let lastInput = '';
 
 /*
  * Cleans the input of carriage return, newline
  */
-const cleanInput = (data) => {
-  const ctrld = Buffer.from(["04"]);
+const cleanInput = data => {
+  const ctrld = Buffer.from(['04']);
 
   /*
    * Convert Ctrl+D to 'exit'
    */
-  if ( data.equals(ctrld) ) {
-      return 'exit';
+  if (data.equals(ctrld)) {
+    return 'exit';
   }
 
-  return data.toString().replace(/(\r\n|\n|\r)/gm,"").toLowerCase();
+  return data.toString().replace(/(\r\n|\n|\r)/gm, '').toLowerCase();
 };
 
 /*
@@ -70,7 +70,7 @@ const cleanInput = (data) => {
  */
 const sendData = (socket, data) => {
   socket.write(data);
-  socket.write("$ ");
+  socket.write('$ ');
 };
 
 /*
@@ -79,15 +79,15 @@ const sendData = (socket, data) => {
 const receiveData = (socket, data) => {
   let cleanData = cleanInput(data);
 
-  if ( cleanData != '!!' ) {
+  if (cleanData != '!!') {
     lastInput = cleanData;
   } else {
     cleanData = lastInput;
   }
 
-  let output = "";
+  let output = '';
 
-  switch ( cleanData ) {
+  switch (cleanData) {
     case '':
       sendData(socket, output);
       break;
@@ -96,47 +96,47 @@ const receiveData = (socket, data) => {
       socket.end('Goodbye!\n');
       break;
     case 'help':
-      output += "These shell commands are defined internally.  Type 'help' to see this list.\n";
-      output += "Type 'help <command>' for more information about a particular command.\n";
+      output += 'These shell commands are defined internally.  Type \'help\' to see this list.\n';
+      output += 'Type \'help <command>\' for more information about a particular command.\n';
 
-      output += "\n";
-      output += "Commands:\n";
-      output += "  cv                         :  Display resume information\n";
-      output += "  exit                       :  Exit the resume\n";
-      output += "  help                       :  Display this help text\n";
-      output += "  quit                       :  Exit the resume\n";
-      output += "  resume                     :  Display resume information\n\n";
+      output += '\n';
+      output += 'Commands:\n';
+      output += '  cv                         :  Display resume information\n';
+      output += '  exit                       :  Exit the resume\n';
+      output += '  help                       :  Display this help text\n';
+      output += '  quit                       :  Exit the resume\n';
+      output += '  resume                     :  Display resume information\n\n';
 
       sendData(socket, output);
       break;
     case 'help cv':
     case 'help resume':
-      output += "These shell commands are defined via a config file.  Type 'help resume' to see this list.\n";
-      output += "\n";
-      output += "Commands:\n";
-      output += "  resume                            :  Full resume\n";
+      output += 'These shell commands are defined via a config file.  Type \'help resume\' to see this list.\n';
+      output += '\n';
+      output += 'Commands:\n';
+      output += '  resume                            :  Full resume\n';
 
-      for ( const section in resume.sections ) {
-        output += vsprintf("  resume %-25s  :  %-25s\n", [section, resume.sections[section].description]);
+      for (const section in resume.sections) {
+        output += vsprintf('  resume %-25s  :  %-25s\n', [section, resume.sections[section].description]);
       }
 
-      output += "\n";
+      output += '\n';
 
       sendData(socket, output);
       break;
     case 'cv':
     case 'resume':
-      for ( const section in resume.sections ) {
+      for (const section in resume.sections) {
         output += resumeSection(section);
       }
 
       sendData(socket, output);
       break;
     default:
-      if ( cleanData.match(/^(resume|cv) /) ) {
+      if (cleanData.match(/^(resume|cv) /)) {
         const section = cleanData.replace(/^(resume|cv) /, '');
 
-        if ( resume.sections.hasOwnProperty(section) ) {
+        if (resume.sections.hasOwnProperty(section)) {
           output = resumeSection(section);
 
           sendData(socket, output);
@@ -144,47 +144,47 @@ const receiveData = (socket, data) => {
         }
       }
 
-      sendData(socket, "-resume: " + cleanData + ": command not found\n");
+      sendData(socket, '-resume: ' + cleanData + ': command not found\n');
       break;
   }
 };
 
-const resumeSection = (section) => {
-  let output = "";
+const resumeSection = section => {
+  let output = '';
 
-  if ( resume.sections.hasOwnProperty(section) ) {
-    output += "--------------------------------------------------------------------------------\n";
-    output += sprintf("%s\n", resume.sections[section].title);
-    output += "--------------------------------------------------------------------------------\n";
+  if (resume.sections.hasOwnProperty(section)) {
+    output += '--------------------------------------------------------------------------------\n';
+    output += sprintf('%s\n', resume.sections[section].title);
+    output += '--------------------------------------------------------------------------------\n';
 
     let stringlast = false;
 
-    resume.sections[section].data.forEach((block) => {
-      if ( typeof block === 'string' || block instanceof String ) {
-        output += sprintf("%s\n", block);
+    resume.sections[section].data.forEach(block => {
+      if (typeof block === 'string' || block instanceof String) {
+        output += sprintf('%s\n', block);
 
         stringlast = true;
       } else {
-        if ( block.hasOwnProperty('header') ) {
-          output += vsprintf("%-51s  :  %-24s\n", block.header);
+        if (block.hasOwnProperty('header')) {
+          output += vsprintf('%-51s  :  %-24s\n', block.header);
         }
 
-        if ( block.hasOwnProperty('subheader') ) {
-          output += vsprintf("%-51s  :  %-24s\n", block.subheader);
+        if (block.hasOwnProperty('subheader')) {
+          output += vsprintf('%-51s  :  %-24s\n', block.subheader);
         }
 
-        if ( block.hasOwnProperty('body') ) {
-          output += sprintf("%s\n", wrap(block.body, {indent: '    ', width: 76}));
+        if (block.hasOwnProperty('body')) {
+          output += sprintf('%s\n', wrap(block.body, {indent: '    ', width: 76}));
         }
 
-        output += "\n";
+        output += '\n';
 
-        stringlast = false
+        stringlast = false;
       }
     });
 
-    if ( stringlast ) {
-      output += "\n";
+    if (stringlast) {
+      output += '\n';
     }
   }
 
@@ -194,7 +194,7 @@ const resumeSection = (section) => {
 /*
  * Method executed when a socket ends
  */
-const closeSocket = (socket) => {
+const closeSocket = socket => {
   const i = sockets.indexOf(socket);
 
   if (i != -1) {
@@ -205,17 +205,17 @@ const closeSocket = (socket) => {
 /*
  * Callback method executed when a new TCP socket is opened.
  */
-const newSocket = (socket) => {
+const newSocket = socket => {
   sockets.push(socket);
-  socket.write("\n");
-  socket.write("Last updated: " + stats.mtime.toUTCString() + "\n");
-  socket.write("\n");
+  socket.write('\n');
+  socket.write('Last updated: ' + stats.mtime.toUTCString() + '\n');
+  socket.write('\n');
   socket.write(figlet.textSync(cli.flags.motd));
-  socket.write("\n");
+  socket.write('\n');
 
-  sendData(socket, "Type 'help' for more information.\n");
+  sendData(socket, 'Type \'help\' for more information.\n');
 
-  socket.on('data', (data) => {
+  socket.on('data', data => {
     receiveData(socket, data);
   });
 

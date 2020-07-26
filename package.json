@@ -20,7 +20,11 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "xo"
+  },
+  "xo": {
+    "space": 2
   },
   "bin": {
     "tcpcv": "server.js"
@@ -31,5 +35,8 @@
     "sprintf-js": "1.0.2",
     "update-notifier": "^4.1.0",
     "word-wrap": "1.0.3"
+  },
+  "devDependencies": {
+    "xo": "^0.32.1"
   }
 }
