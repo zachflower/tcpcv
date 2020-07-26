@@ -9,12 +9,34 @@ const sprintf = require("sprintf-js").sprintf;
 const vsprintf = require("sprintf-js").vsprintf;
 const wrap = require('word-wrap');
 
-const MOTD = process.env.MOTD || "Zachary Flower";
-const PORT = process.env.PORT || 2468;
-const RESUME = process.env.RESUME || "resume.json";
+const cli = meow(`
+  Usage:
+    tcpcv [options]
 
-const stats = fs.statSync(RESUME);
-const resume = JSON.parse(fs.readFileSync(RESUME, 'utf8'));
+  Options:
+    --help            Display this help message
+    --motd[=MOTD]     The hero text to display on connection (default: TCPCV)
+    --port[=PORT]     The port to listen on (default: 2468)
+    --resume[=RESUME] Path to the resume file (default: resume.json)
+`, {
+  flags: {
+    motd: {
+      type: 'string',
+      default: 'TCPCV'
+    },
+    port: {
+      type: 'number',
+      default: 2468
+    },
+    resume: {
+      type: 'string',
+      default: 'resume.json'
+    },
+  }
+});
+
+const stats = fs.statSync(cli.flags.resume);
+const resume = JSON.parse(fs.readFileSync(cli.flags.resume, 'utf8'));
 
 /*
  * Global Variables
@@ -89,7 +111,7 @@ const receiveData = (socket, data) => {
       output += "Commands:\n";
       output += "  resume                            :  Full resume\n";
 
-      for ( section in resume.sections ) {
+      for ( const section in resume.sections ) {
         output += vsprintf("  resume %-25s  :  %-25s\n", [section, resume.sections[section].description]);
       }
 
@@ -99,7 +121,7 @@ const receiveData = (socket, data) => {
       break;
     case 'cv':
     case 'resume':
-      for ( section in resume.sections ) {
+      for ( const section in resume.sections ) {
         output += resumeSection(section);
       }
 
@@ -130,7 +152,7 @@ const resumeSection = (section) => {
     output += sprintf("%s\n", resume.sections[section].title);
     output += "--------------------------------------------------------------------------------\n";
 
-    stringlast = false;
+    let stringlast = false;
 
     resume.sections[section].data.forEach((block) => {
       if ( typeof block === 'string' || block instanceof String ) {
@@ -181,9 +203,9 @@ const closeSocket = (socket) => {
 const newSocket = (socket) => {
   sockets.push(socket);
   socket.write("\n");
-  socket.write("Last updated: " + stats.mtime.toUTCString() + " by Zachary Flower\n");
+  socket.write("Last updated: " + stats.mtime.toUTCString() + "\n");
   socket.write("\n");
-  socket.write(figlet.textSync(MOTD));
+  socket.write(figlet.textSync(cli.flags.motd));
   socket.write("\n");
 
   sendData(socket, "Type 'help' for more information.\n");
@@ -198,4 +220,4 @@ const newSocket = (socket) => {
 };
 
 const server = net.createServer(newSocket);
-server.listen(PORT);
+server.listen(cli.flags.port);
