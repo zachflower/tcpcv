@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+      "module": "commonjs",
+      "outDir": "dist",
+      "rootDir": "src",
+      "declaration": true,
+      "strict": true,
+      "sourceMap": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "moduleResolution": "node",
+      "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+      "node_modules"
+  ]
+ }

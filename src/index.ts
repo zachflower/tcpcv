@@ -1,16 +1,12 @@
-#!/usr/bin/env node
 'use strict';
 
-const net = require('net');
-const fs = require('fs');
-const meow = require('meow');
-const signale = require('signale');
-const figlet = require('figlet');
-const sprintf = require('sprintf-js').sprintf;
-const vsprintf = require('sprintf-js').vsprintf;
-const wrap = require('word-wrap');
-const updateNotifier = require('update-notifier');
-const pkg = require('./package.json');
+import * as net from 'net';
+import * as fs from 'fs';
+import * as meow from 'meow';
+import * as signale from 'signale';
+import * as figlet from 'figlet';
+import {sprintf, vsprintf} from 'sprintf-js';
+import wrap from 'word-wrap';
 
 const cli = meow(`
   Usage:
@@ -39,21 +35,17 @@ const cli = meow(`
   }
 });
 
-const notifier = updateNotifier({pkg});
-
 signale.config({
   displayBadge: true,
   displayTimestamp: true,
   displayDate: true
 });
 
-if (notifier.update) {
-  signale.pending(`Update available ${pkg.version} => ${notifier.update.latest}`);
-}
-
 if (!fs.existsSync(cli.flags.resume)) {
-  signale.fatal(new Error(`No such file or directory, '${cli.flags.resume}'`));
-  process.exit(1);
+  const error = new Error(`No such file or directory, '${cli.flags.resume}'`);
+  signale.fatal(error);
+
+  throw error;
 }
 
 signale.info('Loading resume from', cli.flags.resume);
@@ -64,29 +56,34 @@ const resume = JSON.parse(fs.readFileSync(cli.flags.resume, 'utf8'));
 /*
  * Global Variables
  */
-const sockets = [];
+const sockets = new Array<net.Socket>();
 let lastInput = '';
 
-/*
+/**
  * Cleans the input of carriage return, newline
+ *
+ * @param data
  */
-const cleanInput = data => {
+const cleanInput = (data: string): string => {
   const ctrld = Buffer.from(['04']);
 
   /*
    * Convert Ctrl+D to 'exit'
    */
-  if (data.equals(ctrld)) {
+  if (Buffer.from(data) === ctrld) {
     return 'exit';
   }
 
   return data.toString().replace(/(\r\n|\n|\r)/gm, '').toLowerCase();
 };
 
-/*
+/**
  * Send Data to Socket
+ *
+ * @param socket
+ * @param data
  */
-const sendData = (socket, data) => {
+const sendData = (socket: net.Socket, data: string): void => {
   socket.write(data);
   socket.write('$ ');
 };
@@ -94,7 +91,7 @@ const sendData = (socket, data) => {
 /*
  * Method executed when data is received from a socket
  */
-const receiveData = (socket, data) => {
+const receiveData = (socket: net.Socket, data: string) => {
   let cleanData = cleanInput(data);
 
   if (cleanData === '!!') {
@@ -155,7 +152,7 @@ const receiveData = (socket, data) => {
       sendData(socket, output);
       break;
     default:
-      if (cleanData.match(/^(resume|cv) /)) {
+      if (/^(resume|cv) /.exec(cleanData)) {
         const section = cleanData.replace(/^(resume|cv) /, '');
 
         if (Object.prototype.hasOwnProperty.call(resume.sections, section)) {
@@ -171,7 +168,7 @@ const receiveData = (socket, data) => {
   }
 };
 
-const resumeSection = section => {
+const resumeSection = (section: string) => {
   let output = '';
 
   if (Object.prototype.hasOwnProperty.call(resume.sections, section)) {
@@ -181,7 +178,7 @@ const resumeSection = section => {
 
     let stringlast = false;
 
-    resume.sections[section].data.forEach(block => {
+    resume.sections[section].data.forEach((block: string | any) => {
       if (typeof block === 'string' || block instanceof String) {
         output += sprintf('%s\n', block);
 
@@ -216,7 +213,7 @@ const resumeSection = section => {
 /*
  * Method executed when a socket ends
  */
-const closeSocket = socket => {
+const closeSocket = (socket: net.Socket) => {
   const i = sockets.indexOf(socket);
 
   if (i !== -1) {
@@ -227,19 +224,19 @@ const closeSocket = socket => {
 /*
  * Callback method executed when a new TCP socket is opened.
  */
-const newSocket = socket => {
+const newSocket = (socket: net.Socket) => {
   signale.info('New connection from', socket.remoteAddress);
 
   sockets.push(socket);
   socket.write('\n');
-  socket.write('Last updated: ' + stats.mtime.toUTCString() + '\n');
+  socket.write(`Last updated: ${stats.mtime.toUTCString()}\n`);
   socket.write('\n');
   socket.write(figlet.textSync(cli.flags.motd));
   socket.write('\n');
 
   sendData(socket, 'Type \'help\' for more information.\n');
 
-  socket.on('data', data => {
+  socket.on('data', (data: string) => {
     receiveData(socket, data);
   });
 
@@ -251,4 +248,6 @@ const newSocket = socket => {
 const server = net.createServer(newSocket);
 server.listen(cli.flags.port);
 
-signale.success('TCPCV is ready to rock on port', server.address().port);
+const {port} = server.address() as net.AddressInfo;
+
+signale.success(`TCPCV is ready to rock on port ${port}!`);

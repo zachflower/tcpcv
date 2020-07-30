@@ -3,41 +3,60 @@
   "version": "2.0.4",
   "author": "Zachary Flower <zach@flower.codes>",
   "description": "TCPCV is a retro-style, text-based server for hosting your resume",
+  "keywords": [
+    "cli-app",
+    "cli",
+    "resume"
+  ],
   "contributors": [
     {
       "name": "Zachary Flower",
       "email": "zach@flower.codes"
     }
   ],
-  "keywords": [
-    "cli-app",
-    "cli",
-    "resume"
-  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/zachflower/tcpcv.git"
+    "url": "git+https://github.com/zachflower/tcpcv.git"
   },
+  "bugs": {
+    "url": "https://github.com/zachflower/tcpcv/issues"
+  },
+  "homepage": "https://github.com/zachflower/tcpcv#readme",
   "license": "MIT",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
-    "start": "node server.js",
-    "test": "xo"
-  },
-  "xo": {
-    "space": 2
+    "start": "node dist/src/index.js",
+    "test": "xo",
+    "build": "tsc",
+    "build:check": "tsc --noEmit",
+    "watch": "tsc -w"
   },
   "bin": {
-    "tcpcv": "server.js"
+    "tcpcv": "bin/tcpcv"
   },
   "dependencies": {
     "figlet": "1.1.1",
     "meow": "^7.0.1",
     "signale": "^1.4.0",
     "sprintf-js": "1.0.2",
-    "update-notifier": "^4.1.0",
     "word-wrap": "1.0.3"
   },
   "devDependencies": {
+    "@types/figlet": "^1.2.0",
+    "@types/node": "^14.0.27",
+    "@types/signale": "^1.4.1",
+    "@types/sprintf-js": "^1.1.2",
+    "@types/update-notifier": "^4.1.0",
+    "@types/word-wrap": "^1.2.1",
+    "typescript": "^3.9.7",
     "xo": "^0.32.1"
+  },
+  "xo": {
+    "space": 2,
+    "rules": {
+      "@typescript-eslint/restrict-template-expressions": "off",
+      "@typescript-eslint/no-unnecessary-type-assertion": "off"
+    }
   }
 }
