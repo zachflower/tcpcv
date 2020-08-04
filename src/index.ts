@@ -1,12 +1,12 @@
 'use strict';
 
-import * as net from 'net';
-import * as fs from 'fs';
+import {Socket, createServer, AddressInfo} from 'net';
+import {existsSync, statSync, readFileSync} from 'fs';
+import {sprintf, vsprintf} from 'sprintf-js';
+import * as wrap from 'word-wrap';
 import * as meow from 'meow';
 import * as signale from 'signale';
 import * as figlet from 'figlet';
-import {sprintf, vsprintf} from 'sprintf-js';
-import wrap from 'word-wrap';
 
 const cli = meow(`
   Usage:
@@ -41,7 +41,7 @@ signale.config({
   displayDate: true
 });
 
-if (!fs.existsSync(cli.flags.resume)) {
+if (!existsSync(cli.flags.resume)) {
   const error = new Error(`No such file or directory, '${cli.flags.resume}'`);
   signale.fatal(error);
 
@@ -50,13 +50,13 @@ if (!fs.existsSync(cli.flags.resume)) {
 
 signale.info('Loading resume from', cli.flags.resume);
 
-const stats = fs.statSync(cli.flags.resume);
-const resume = JSON.parse(fs.readFileSync(cli.flags.resume, 'utf8'));
+const stats = statSync(cli.flags.resume);
+const resume = JSON.parse(readFileSync(cli.flags.resume, 'utf8'));
 
 /*
  * Global Variables
  */
-const sockets = new Array<net.Socket>();
+const sockets = new Array<Socket>();
 let lastInput = '';
 
 /**
@@ -83,7 +83,7 @@ const cleanInput = (data: string): string => {
  * @param socket
  * @param data
  */
-const sendData = (socket: net.Socket, data: string): void => {
+const sendData = (socket: Socket, data: string): void => {
   socket.write(data);
   socket.write('$ ');
 };
@@ -91,7 +91,7 @@ const sendData = (socket: net.Socket, data: string): void => {
 /*
  * Method executed when data is received from a socket
  */
-const receiveData = (socket: net.Socket, data: string) => {
+const receiveData = (socket: Socket, data: string) => {
   let cleanData = cleanInput(data);
 
   if (cleanData === '!!') {
@@ -213,7 +213,7 @@ const resumeSection = (section: string) => {
 /*
  * Method executed when a socket ends
  */
-const closeSocket = (socket: net.Socket) => {
+const closeSocket = (socket: Socket) => {
   const i = sockets.indexOf(socket);
 
   if (i !== -1) {
@@ -224,7 +224,7 @@ const closeSocket = (socket: net.Socket) => {
 /*
  * Callback method executed when a new TCP socket is opened.
  */
-const newSocket = (socket: net.Socket) => {
+const newSocket = (socket: Socket) => {
   signale.info('New connection from', socket.remoteAddress);
 
   sockets.push(socket);
@@ -245,9 +245,9 @@ const newSocket = (socket: net.Socket) => {
   });
 };
 
-const server = net.createServer(newSocket);
+const server = createServer(newSocket);
 server.listen(cli.flags.port);
 
-const {port} = server.address() as net.AddressInfo;
+const {port} = server.address() as AddressInfo;
 
 signale.success(`TCPCV is ready to rock on port ${port}!`);

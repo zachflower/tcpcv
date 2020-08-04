@@ -6,7 +6,8 @@
   "keywords": [
     "cli-app",
     "cli",
-    "resume"
+    "resume",
+    "cv"
   ],
   "contributors": [
     {
@@ -23,10 +24,10 @@
   },
   "homepage": "https://github.com/zachflower/tcpcv#readme",
   "license": "MIT",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "start": "node dist/src/index.js",
+    "start": "node dist/index.js",
     "test": "xo",
     "build": "tsc",
     "build:check": "tsc --noEmit",
