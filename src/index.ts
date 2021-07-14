@@ -1,5 +1,3 @@
-'use strict';
-
 import { Socket, createServer, AddressInfo } from 'net';
 import { existsSync, statSync, readFileSync } from 'fs';
 import { sprintf, vsprintf } from 'sprintf-js';
@@ -152,7 +150,7 @@ const receiveData = (socket: Socket, data: string) => {
       sendData(socket, output);
       break;
     default:
-      if (/^(resume|cv) /.exec(cleanData)) {
+      if (/^(resume|cv) /.test(cleanData)) {
         const section = cleanData.replace(/^(resume|cv) /, '');
 
         if (Object.prototype.hasOwnProperty.call(resume.sections, section)) {
@@ -178,7 +176,7 @@ const resumeSection = (section: string) => {
 
     let stringlast = false;
 
-    resume.sections[section].data.forEach((block: string | any) => {
+    for (const block of resume.sections[section].data) {
       if (typeof block === 'string' || block instanceof String) {
         output += sprintf('%s\n', block);
 
@@ -200,7 +198,7 @@ const resumeSection = (section: string) => {
 
         stringlast = false;
       }
-    });
+    }
 
     if (stringlast) {
       output += '\n';

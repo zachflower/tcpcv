@@ -56,8 +56,14 @@
   "xo": {
     "space": 2,
     "rules": {
+      "unicorn/prefer-node-protocol": "off",
+      "@typescript-eslint/comma-dangle": "off",
+      "@typescript-eslint/object-curly-spacing": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
-      "@typescript-eslint/no-unnecessary-type-assertion": "off"
+      "@typescript-eslint/no-unnecessary-type-assertion": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off"
     }
   }
 }
