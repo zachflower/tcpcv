@@ -1,6 +1,6 @@
 {
   "name": "tcpcv",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "author": "Zachary Flower <zach@flower.codes>",
   "description": "TCPCV is a retro-style, text-based server for hosting your resume",
   "keywords": [
