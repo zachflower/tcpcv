@@ -44,14 +44,14 @@
     "word-wrap": "1.0.3"
   },
   "devDependencies": {
-    "@types/figlet": "^1.2.0",
-    "@types/node": "^14.0.27",
-    "@types/signale": "^1.4.1",
+    "@types/figlet": "^1.5.4",
+    "@types/node": "^14.17.5",
+    "@types/signale": "^1.4.2",
     "@types/sprintf-js": "^1.1.2",
-    "@types/update-notifier": "^4.1.0",
+    "@types/update-notifier": "^4.1.1",
     "@types/word-wrap": "^1.2.1",
-    "typescript": "^3.9.7",
-    "xo": "^0.32.1"
+    "typescript": "^3.9.10",
+    "xo": "^0.41.1"
   },
   "xo": {
     "space": 2,

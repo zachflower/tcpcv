@@ -1,8 +1,8 @@
 'use strict';
 
-import {Socket, createServer, AddressInfo} from 'net';
-import {existsSync, statSync, readFileSync} from 'fs';
-import {sprintf, vsprintf} from 'sprintf-js';
+import { Socket, createServer, AddressInfo } from 'net';
+import { existsSync, statSync, readFileSync } from 'fs';
+import { sprintf, vsprintf } from 'sprintf-js';
 import * as wrap from 'word-wrap';
 import * as meow from 'meow';
 import * as signale from 'signale';
@@ -65,7 +65,7 @@ let lastInput = '';
  * @param data
  */
 const cleanInput = (data: string): string => {
-  const ctrld = Buffer.from(['04']);
+  const ctrld = Buffer.from('04');
 
   /*
    * Convert Ctrl+D to 'exit'
@@ -193,7 +193,7 @@ const resumeSection = (section: string) => {
         }
 
         if (Object.prototype.hasOwnProperty.call(block, 'body')) {
-          output += sprintf('%s\n', wrap(block.body, {indent: '    ', width: 76}));
+          output += sprintf('%s\n', wrap(block.body, { indent: '    ', width: 76 }));
         }
 
         output += '\n';
@@ -248,6 +248,6 @@ const newSocket = (socket: Socket) => {
 const server = createServer(newSocket);
 server.listen(cli.flags.port);
 
-const {port} = server.address() as AddressInfo;
+const { port } = server.address() as AddressInfo;
 
 signale.success(`TCPCV is ready to rock on port ${port}!`);
